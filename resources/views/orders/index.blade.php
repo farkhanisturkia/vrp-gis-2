@@ -37,7 +37,10 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mandatory Areas</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                @if (auth()->check() && auth()->user()->role === 'admin')
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                @endif
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Armada</th>
                                 <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                             </tr>
@@ -66,8 +69,13 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $order->user?->name ?? '-' }}
+                                        {{ $order->status ?? '-' }}
                                     </td>
+                                    @if (auth()->check() && auth()->user()->role === 'admin')
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $order->user?->name ?? '-' }}
+                                        </td>
+                                    @endif
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ $order->armada?->no_plat ?? '-' }} ({{ $order->armada?->name ?? '-' }})
                                     </td>
