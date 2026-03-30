@@ -69,7 +69,30 @@
                                 </td>
 
                                 <td class="px-6 py-3 text-sm">
-                                    {{ $order->status }}
+                                    @php
+                                        $status = $order->status;
+
+                                        $classes = match($status) {
+                                            'set'   => 'bg-zinc-700/40 text-zinc-300 border-zinc-600',
+                                            'start' => 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+                                            'stop'  => 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+                                            'end'   => 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+                                            default => 'bg-zinc-700 text-zinc-300'
+                                        };
+                                    @endphp
+
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-xl text-xs font-semibold border {{ $classes }}">
+                                        
+                                        <!-- DOT -->
+                                        <span class="w-2 h-2 rounded-full 
+                                            {{ $status === 'set' ? 'bg-zinc-400' : '' }}
+                                            {{ $status === 'start' ? 'bg-blue-400' : '' }}
+                                            {{ $status === 'stop' ? 'bg-yellow-400' : '' }}
+                                            {{ $status === 'end' ? 'bg-emerald-400' : '' }}">
+                                        </span>
+
+                                        {{ ucfirst($status) }}
+                                    </span>
                                 </td>
 
                                 <td class="px-6 py-3 text-sm text-zinc-300 max-w-[120px] truncate">
