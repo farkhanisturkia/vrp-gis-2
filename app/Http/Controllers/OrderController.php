@@ -87,13 +87,32 @@ class OrderController extends Controller
             'from_id',
             'to_id',
             'user_id',
-            'armada_id'
+            'armada_id',
+            'status'
         ]));
 
         $order->mandatories()->sync($request->mandatories ?? []);
 
         return redirect()->route('orders.index')
             ->with('success','Order updated successfully.');
+    }
+
+    public function updateStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|in:set,start,stop,end'
+        ]);
+
+        // OPTIONAL: proteksi user hanya boleh ubah order miliknya
+        if (!auth()->user()->isAdmin() && $order->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $order->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('success', 'Status order berhasil diupdate.');
     }
 
     public function destroy(Order $order)

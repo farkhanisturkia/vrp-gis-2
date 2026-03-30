@@ -29,6 +29,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id');
     }
 
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
