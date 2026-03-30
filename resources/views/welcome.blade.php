@@ -45,7 +45,7 @@
             @if (Route::has('login'))
                 <nav>
                     @auth
-                        <a href="{{ url('/dashboard') }}" 
+                        <a href="{{ url('/users') }}" 
                            class="px-6 py-3 bg-white text-zinc-900 hover:bg-orange-500 hover:text-white font-medium rounded-2xl transition-all duration-300 flex items-center gap-2">
                             <span>Masuk ke Dashboard</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
