@@ -126,34 +126,35 @@ class DatabaseSeeder extends Seeder
         =========================================
         */
 
-        $order1 = Order::create([
-            'date' => now(),
-            'from_id' => 1,
-            'to_id' => 2,
-            'user_id' => 1,
-            'armada_id' => 1,
-        ]);
+        $coordinateIds = Coordinate::pluck('id')->toArray();
+        $userIds = User::pluck('id')->toArray();
+        $armadaIds = Armada::pluck('id')->toArray();
 
-        $order1->mandatories()->sync([3]);
+        for ($i = 0; $i < 30; $i++) {
+            // Random FROM & TO (tidak boleh sama)
+            $from = $coordinateIds[array_rand($coordinateIds)];
+            do {
+                $to = $coordinateIds[array_rand($coordinateIds)];
+            } while ($to === $from);
 
-        $order2 = Order::create([
-            'date' => now(),
-            'from_id' => 2,
-            'to_id' => 4,
-            'user_id' => 2,
-            'armada_id' => 2,
-        ]);
+            $order = Order::create([
+                'date' => now()->subDays(rand(0, 30)),
+                'from_id' => $from,
+                'to_id' => $to,
+                'user_id' => $userIds[array_rand($userIds)],
+                'armada_id' => $armadaIds[array_rand($armadaIds)],
+            ]);
 
-        $order2->mandatories()->sync([1, 3]);
+            // Random mandatory (1 - 5 titik, tidak termasuk from & to)
+            $availableMandatory = array_diff($coordinateIds, [$from, $to]);
 
-        $order3 = Order::create([
-            'date' => now(),
-            'from_id' => 3,
-            'to_id' => 1,
-            'user_id' => 3,
-            'armada_id' => 3,
-        ]);
+            shuffle($availableMandatory);
 
-        $order3->mandatories()->sync([1, 2, 4]);
+            $mandatoryCount = rand(1, min(5, count($availableMandatory)));
+
+            $selectedMandatory = array_slice($availableMandatory, 0, $mandatoryCount);
+
+            $order->mandatories()->sync($selectedMandatory);
+        }
     }
 }
