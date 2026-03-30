@@ -102,13 +102,8 @@
             <div class="p-8">
                 @if (request('modal') === 'create')
                     @include('armadas.form', ['armada' => null])
-                @elseif (request('modal') === 'edit' && request('armada_id'))
-                    @php $editArmada = \App\Models\Armada::find(request('armada_id')); @endphp
-                    @if($editArmada)
-                        @include('armadas.form', ['armada' => $editArmada])
-                    @else
-                        <p class="text-red-400">Armada tidak ditemukan</p>
-                    @endif
+                @elseif (request('modal') === 'edit')
+                    @include('armadas.form', ['armada' => $editArmada])
                 @endif
             </div>
         </div>

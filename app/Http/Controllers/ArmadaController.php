@@ -11,7 +11,13 @@ class ArmadaController extends Controller
     {
         $armadas = Armada::orderBy('name', 'asc')->paginate(14);
 
-        return view('armadas.index', compact('armadas'));
+        $editArmada = null;
+
+        if (request('modal') === 'edit' && request('armada_id')) {
+            $editArmada = Armada::find(request('armada_id'));
+        }
+
+        return view('armadas.index', compact('armadas', 'editArmada'));
     }
 
     public function store(Request $request)

@@ -12,7 +12,13 @@ class UserController extends Controller
     {
         $users = User::orderBy('role', 'asc')->paginate(14);
 
-        return view('users.index', compact('users'));
+        $editUser = null;
+
+        if (request('modal') === 'edit' && request('user_id')) {
+            $editUser = User::find(request('user_id'));
+        }
+
+        return view('users.index', compact('users', 'editUser'));
     }
 
     public function store(Request $request)

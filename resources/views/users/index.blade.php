@@ -81,13 +81,8 @@
             <div class="p-8">
                 @if (request('modal') === 'create')
                     @include('users.form', ['user' => null])
-                @elseif (request('modal') === 'edit' && request('user_id'))
-                    @php $editUser = \App\Models\User::find(request('user_id')); @endphp
-                    @if($editUser)
-                        @include('users.form', ['user' => $editUser])
-                    @else
-                        <p class="text-red-400">User tidak ditemukan</p>
-                    @endif
+                @elseif (request('modal') === 'edit')
+                    @include('users.form', ['user' => $editUser])
                 @endif
             </div>
         </div>

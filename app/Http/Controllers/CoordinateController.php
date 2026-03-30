@@ -11,7 +11,13 @@ class CoordinateController extends Controller
     {
         $coordinates = Coordinate::orderBy('id', 'asc')->paginate(14);
 
-        return view('coordinates.index', compact('coordinates'));
+        $editCoordinate = null;
+
+        if (request('modal') === 'edit' && request('coordinate_id')) {
+            $editCoordinate = Coordinate::find(request('coordinate_id'));
+        }
+
+        return view('coordinates.index', compact('coordinates', 'editCoordinate'));
     }
 
     public function store(Request $request)

@@ -99,13 +99,8 @@
             <div class="p-8">
                 @if (request('modal') === 'create')
                     @include('coordinates.form', ['coordinate' => null])
-                @elseif (request('modal') === 'edit' && request('coordinate_id'))
-                    @php $editCoordinate = \App\Models\Coordinate::find(request('coordinate_id')); @endphp
-                    @if($editCoordinate)
-                        @include('coordinates.form', ['coordinate' => $editCoordinate])
-                    @else
-                        <p class="text-red-400">Coordinate tidak ditemukan</p>
-                    @endif
+                @elseif (request('modal') === 'edit')
+                    @include('coordinates.form', ['coordinate' => $editCoordinate])
                 @endif
             </div>
         </div>
