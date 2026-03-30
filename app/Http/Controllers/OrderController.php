@@ -10,18 +10,32 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
-    {
+    public function index(Request $request) {
         $orders = Order::with(['from', 'to', 'user', 'armada', 'mandatories'])
             ->forCurrentUser()
             ->orderBy('date', 'asc')
             ->paginate(10);
 
-        $users     = User::select('id', 'name', 'email')->orderBy('name')->get();
-        $armadas   = Armada::select('id', 'name', 'no_plat')->orderBy('name')->get();
+        $users = User::select('id', 'name', 'email')->orderBy('name')->get();
+        $armadas = Armada::select('id', 'name', 'no_plat')->orderBy('name')->get();
         $coordinates = Coordinate::select('id', 'area')->orderBy('area')->get();
 
-        return view('orders.index', compact('orders', 'users', 'armadas', 'coordinates'));
+        $editOrder = null;
+
+        if ($request->modal === 'edit' && $request->order_id) {
+            $editOrder = Order::with('mandatories')
+                ->where('id', $request->order_id)
+                ->forCurrentUser()
+                ->first();
+        }
+
+        return view('orders.index', compact(
+            'orders',
+            'users',
+            'armadas',
+            'coordinates',
+            'editOrder'
+        ));
     }
 
     public function view(Order $order) {

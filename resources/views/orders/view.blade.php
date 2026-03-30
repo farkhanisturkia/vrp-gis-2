@@ -1,57 +1,89 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Detail Order #{{ $order->id }} - {{ $order->date?->format('d M Y') }}
-            </h2>
-            <a href="{{ route('orders.index') }}" 
-               class="text-indigo-600 hover:text-indigo-800 font-medium">
-                ← Kembali ke Daftar Order
-            </a>
-        </div>
-    </x-slot>
-
-    <div class="flex h-[calc(100vh-140px)]">  <!-- Sesuaikan dengan header + nav -->
-        <!-- MAP SECTION -->
-        <div id="map" class="flex-grow relative"></div>
-
-        <!-- SIDE PANEL -->
-        <div class="w-80 bg-white border-l shadow-sm flex flex-col">
-            <div class="p-4 border-b">
-                <h2 class="font-bold text-lg">Urutan Rute</h2>
-                <p class="text-sm text-gray-500 mt-1">
-                    {{ $order->from?->area ?? 'Titik Awal' }} → {{ $order->to?->area ?? 'Titik Akhir' }}
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-semibold text-white">
+                    Detail Order #{{ $order->id }}
+                </h1>
+                <p class="text-zinc-400 text-sm">
+                    {{ $order->date?->format('d M Y') }}
                 </p>
             </div>
 
-            <div class="p-4 flex-1 overflow-auto">
-                <!-- GPS Status -->
-                <div class="mb-4">
-                    <strong class="text-sm">Start (GPS Anda):</strong>
-                    <div id="gps-status" class="text-gray-600 text-sm mt-1">Menunggu lokasi...</div>
-                </div>
+            <a href="{{ route('orders.index') }}" 
+               class="text-orange-400 hover:text-orange-300 font-medium">
+                ← Kembali
+            </a>
+        </div>
 
-                <button id="btnLoad"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition mb-6">
-                    Tampilkan Rute Lengkap
-                </button>
+        <!-- Layout -->
+        <div class="flex gap-6 h-[calc(100vh-200px)]">
 
-                <!-- Daftar Step -->
-                <ul id="stepList" class="space-y-2 text-sm"></ul>
+            <!-- MAP -->
+            <div class="flex-1 bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden relative">
+                <div id="map" class="w-full h-full"></div>
             </div>
 
-            <!-- Info Order -->
-            <div class="p-4 border-t bg-gray-50 text-xs">
-                <div class="grid grid-cols-2 gap-4">
+            <!-- SIDE PANEL -->
+            <div class="w-80 bg-zinc-900 border border-zinc-800 rounded-3xl flex flex-col overflow-hidden">
+
+                <!-- HEADER -->
+                <div class="p-6 border-b border-zinc-800">
+                    <h2 class="text-white font-semibold">
+                        Rute Pengiriman
+                    </h2>
+                    <p class="text-zinc-400 text-sm mt-1">
+                        {{ $order->from?->area ?? '-' }} → {{ $order->to?->area ?? '-' }}
+                    </p>
+                </div>
+
+                <!-- CONTENT -->
+                <div class="p-6 flex-1 overflow-y-auto space-y-6">
+
+                    <!-- GPS -->
                     <div>
-                        <span class="text-gray-500">User</span><br>
-                        <strong>{{ $order->user?->name ?? '-' }}</strong>
+                        <div class="text-xs text-zinc-400 mb-1">Start (GPS Anda)</div>
+                        <div id="gps-status" class="text-sm text-zinc-300">
+                            Menunggu lokasi...
+                        </div>
                     </div>
+
+                    <!-- BUTTON -->
+                    <button id="btnLoad"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 rounded-2xl transition">
+                        Tampilkan Rute
+                    </button>
+
+                    <!-- STEP LIST -->
                     <div>
-                        <span class="text-gray-500">Armada</span><br>
-                        <strong>{{ $order->armada?->no_plat ?? '-' }} ({{ $order->armada?->name ?? '-' }})</strong>
+                        <div class="text-xs text-zinc-400 mb-2">Detail Perjalanan</div>
+                        <ul id="stepList" class="space-y-2"></ul>
                     </div>
                 </div>
+
+                <!-- FOOTER -->
+                <div class="p-6 border-t border-zinc-800 bg-zinc-950 text-sm">
+                    <div class="flex justify-between">
+                        <div>
+                            <div class="text-zinc-400 text-xs">User</div>
+                            <div class="text-white font-medium">
+                                {{ $order->user?->name ?? '-' }}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-zinc-400 text-xs">Armada</div>
+                            <div class="text-white font-medium">
+                                {{ $order->armada?->no_plat ?? '-' }}
+                            </div>
+                            <div class="text-zinc-500 text-xs">
+                                {{ $order->armada?->name ?? '-' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -60,32 +92,36 @@
     <style>
         .step-btn {
             width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 12px;
+            background: #18181b;
+            border: 1px solid #27272a;
             text-align: left;
-            cursor: pointer;
             transition: all 0.2s;
         }
+
         .step-btn:hover {
-            background: #e5e7eb;
+            background: #27272a;
         }
+
         .step-btn.active {
-            background: #2563eb;
+            background: #f97316;
             color: white;
+            border-color: #f97316;
         }
+
         .marker-label {
-            background: #2563eb;
+            background: #f97316;
             color: white;
-            border-radius: 50%;
+            border-radius: 9999px;
             width: 28px;
             height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: 13px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
     </style>
     @endpush
@@ -93,7 +129,7 @@
     @push('scripts')
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Data dari Laravel
+
         const orderData = {
             from: {!! json_encode($order->from) !!},
             to: {!! json_encode($order->to) !!},
@@ -101,163 +137,113 @@
         };
 
         let startPoint = null;
-        let activeRoute = null;
-        let map = null;
         let routeControl = null;
 
-        // Inisialisasi Map
-        map = L.map('map').setView([-7.25, 112.75], 10);
-        
+        const map = L.map('map').setView([-7.25, 112.75], 11);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            maxZoom: 19
         }).addTo(map);
 
-        // GPS Tracking
         const gpsStatus = document.getElementById('gps-status');
+
         navigator.geolocation.watchPosition(pos => {
             const lat = pos.coords.latitude;
             const lng = pos.coords.longitude;
-            startPoint = { lat, lng, label: 'Posisi Saya Saat Ini' };
-            gpsStatus.innerHTML = `${lat.toFixed(5)}, ${lng.toFixed(5)} <span class="text-green-600">(aktif)</span>`;
-        }, () => {
-            gpsStatus.innerHTML = 'GPS tidak tersedia atau ditolak';
+
+            startPoint = { lat, lng, label: 'Posisi Saya' };
+
+            gpsStatus.innerHTML = `${lat.toFixed(5)}, ${lng.toFixed(5)} 
+                <span class="text-green-400">(aktif)</span>`;
         });
 
-        // Buat array semua titik dalam urutan
         let routePoints = [];
 
         if (orderData.from) {
             routePoints.push({
-                lat: parseFloat(orderData.from.lat),
-                lng: parseFloat(orderData.from.long),
+                lat: +orderData.from.lat,
+                lng: +orderData.from.long,
                 label: orderData.from.area,
                 type: 'from'
             });
         }
 
-        // Tambahkan mandatories
-        orderData.mandatories.forEach((m, index) => {
+        orderData.mandatories.forEach((m, i) => {
             routePoints.push({
-                lat: parseFloat(m.lat),
-                lng: parseFloat(m.long),
+                lat: +m.lat,
+                lng: +m.long,
                 label: m.area,
                 type: 'mandatory',
-                order: index + 1
+                order: i + 1
             });
         });
 
         if (orderData.to) {
             routePoints.push({
-                lat: parseFloat(orderData.to.lat),
-                lng: parseFloat(orderData.to.long),
+                lat: +orderData.to.lat,
+                lng: +orderData.to.long,
                 label: orderData.to.area,
                 type: 'to'
             });
         }
 
-        // Tambahkan marker ke map
-        routePoints.forEach((point, index) => {
-            const iconHtml = point.type === 'from' 
-                ? `<div class="marker-label" style="background:#10b981">A</div>`
-                : point.type === 'to' 
-                    ? `<div class="marker-label" style="background:#ef4444">B</div>`
-                    : `<div class="marker-label">${point.order}</div>`;
-
+        routePoints.forEach((p) => {
             const icon = L.divIcon({
-                className: '',
-                html: iconHtml,
-                iconSize: [28, 28]
+                html: `<div class="marker-label">${p.type === 'from' ? 'A' : p.type === 'to' ? 'B' : p.order}</div>`
             });
 
-            L.marker([point.lat, point.lng], { icon })
+            L.marker([p.lat, p.lng], { icon })
                 .addTo(map)
-                .bindPopup(`<b>${point.label}</b>`);
+                .bindPopup(p.label);
         });
 
-        // Fit map ke semua marker
-        if (routePoints.length > 0) {
-            const bounds = L.latLngBounds(routePoints.map(p => [p.lat, p.lng]));
-            map.fitBounds(bounds, { padding: [50, 50] });
+        if (routePoints.length) {
+            map.fitBounds(routePoints.map(p => [p.lat, p.lng]), { padding: [50,50] });
         }
 
-        // Event Tombol Tampilkan Rute
-        document.getElementById('btnLoad').addEventListener('click', () => {
-            if (!startPoint) {
-                alert('GPS belum aktif. Tunggu sebentar atau izinkan lokasi.');
-                return;
-            }
+        document.getElementById('btnLoad').onclick = () => {
+            if (!startPoint) return alert('GPS belum aktif');
 
-            if (routePoints.length === 0) {
-                alert('Tidak ada titik rute pada order ini.');
-                return;
-            }
-
-            renderStepList();
-            showFullRoute();
-        });
-
-        function renderStepList() {
             const list = document.getElementById('stepList');
             list.innerHTML = '';
 
-            const fullPoints = [startPoint, ...routePoints];
+            const full = [startPoint, ...routePoints];
 
-            fullPoints.slice(0, -1).forEach((current, i) => {
-                const next = fullPoints[i + 1];
-                if (!next) return;
+            full.slice(0, -1).forEach((cur, i) => {
+                const next = full[i+1];
 
                 const btn = document.createElement('button');
                 btn.className = 'step-btn';
                 btn.innerHTML = `
-                    <div class="font-medium">${current.label}</div>
-                    <div class="text-xs text-gray-500">→ ${next.label}</div>
+                    <div class="text-white text-sm font-medium">${cur.label}</div>
+                    <div class="text-xs text-zinc-400">→ ${next.label}</div>
                 `;
-                btn.onclick = () => showSegment(current, next, btn);
+
+                btn.onclick = () => {
+                    document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    if (routeControl) map.removeControl(routeControl);
+
+                    routeControl = L.Routing.control({
+                        waypoints: [
+                            L.latLng(cur.lat, cur.lng),
+                            L.latLng(next.lat, next.lng)
+                        ],
+                        createMarker: () => null
+                    }).addTo(map);
+                };
+
                 list.appendChild(btn);
             });
-        }
 
-        async function showSegment(from, to, btn) {
-            // Hapus rute sebelumnya jika ada
-            if (activeRoute) map.removeLayer(activeRoute);
-
-            document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            // Menggunakan Leaflet Routing Machine (sesuai layout Anda)
             if (routeControl) map.removeControl(routeControl);
 
             routeControl = L.Routing.control({
-                waypoints: [
-                    L.latLng(from.lat, from.lng),
-                    L.latLng(to.lat, to.lng)
-                ],
-                routeWhileDragging: true,
-                showAlternatives: false,
-                lineOptions: {
-                    styles: [{ color: '#2563eb', weight: 6 }]
-                },
-                createMarker: () => null  // Marker sudah dibuat manual
+                waypoints: full.map(p => L.latLng(p.lat, p.lng)),
+                createMarker: () => null
             }).addTo(map);
-        }
-
-        async function showFullRoute() {
-            if (routeControl) map.removeControl(routeControl);
-
-            const waypoints = [startPoint, ...routePoints].map(p => 
-                L.latLng(p.lat, p.lng)
-            );
-
-            routeControl = L.Routing.control({
-                waypoints: waypoints,
-                routeWhileDragging: false,
-                showAlternatives: false,
-                lineOptions: {
-                    styles: [{ color: '#2563eb', weight: 7, opacity: 0.9 }]
-                }
-            }).addTo(map);
-        }
+        };
     });
     </script>
     @endpush
