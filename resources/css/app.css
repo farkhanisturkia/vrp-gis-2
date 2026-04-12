@@ -119,3 +119,21 @@
     margin-top: 20px;
     margin-right: 20px;
 }
+
+/* Turunkan semua layer map */
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom,
+.leaflet-control {
+    z-index: 10 !important;
+}
+
+/* Routing container jangan ngalahin sidebar */
+.leaflet-routing-container {
+    z-index: 10 !important;
+}
+
+/* Pastikan sidebar selalu paling atas */
+#sidebar {
+    z-index: 50;
+}

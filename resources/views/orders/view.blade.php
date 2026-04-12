@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto">
         
         <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
                 <h1 class="text-2xl font-semibold text-white">
                     Detail Order #{{ $order->id }}
@@ -13,21 +13,21 @@
             </div>
 
             <a href="{{ route('orders.index') }}" 
-               class="text-orange-400 hover:text-orange-300 font-medium">
+               class="text-orange-400 hover:text-orange-500 font-medium">
                 ← Kembali
             </a>
         </div>
 
         <!-- Layout -->
-        <div class="flex gap-6 h-[calc(100vh-200px)]">
+        <div class="flex flex-col lg:flex-row gap-6">
 
             <!-- MAP -->
-            <div class="flex-1 bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden relative">
+            <div class="w-full lg:flex-1 h-[300px] sm:h-[400px] lg:h-auto bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden relative">
                 <div id="map" class="w-full h-full"></div>
             </div>
 
             <!-- SIDE PANEL -->
-            <div class="w-80 bg-zinc-900 border border-zinc-800 rounded-3xl flex flex-col overflow-hidden">
+            <div class="w-full lg:w-80 bg-zinc-900 border border-zinc-800 rounded-3xl flex flex-col overflow-hidden">
 
                 <!-- HEADER -->
                 <div class="p-6 border-b border-zinc-800 space-y-3">
@@ -40,7 +40,7 @@
                         </p>
                     </div>
 
-                    <!-- STATUS FORM -->
+                    <!-- STATUS -->
                     <form method="POST" action="{{ route('orders.updateStatus', $order->id) }}">
                         @csrf
                         @method('PATCH')
@@ -52,27 +52,19 @@
 
                             <select name="status"
                                 onchange="this.form.submit()"
-                                class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-white text-sm focus:ring-orange-500 focus:border-orange-500">
+                                class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:ring-orange-500 focus:border-orange-500">
                                 
-                                <option value="set" {{ $order->status === 'set' ? 'selected' : '' }}>
-                                    Set
-                                </option>
-                                <option value="start" {{ $order->status === 'start' ? 'selected' : '' }}>
-                                    Start
-                                </option>
-                                <option value="stop" {{ $order->status === 'stop' ? 'selected' : '' }}>
-                                    Stop
-                                </option>
-                                <option value="end" {{ $order->status === 'end' ? 'selected' : '' }}>
-                                    End
-                                </option>
+                                <option value="set" {{ $order->status === 'set' ? 'selected' : '' }}>Set</option>
+                                <option value="start" {{ $order->status === 'start' ? 'selected' : '' }}>Start</option>
+                                <option value="stop" {{ $order->status === 'stop' ? 'selected' : '' }}>Stop</option>
+                                <option value="end" {{ $order->status === 'end' ? 'selected' : '' }}>End</option>
                             </select>
                         </div>
                     </form>
                 </div>
 
                 <!-- CONTENT -->
-                <div class="p-6 flex-1 overflow-y-auto space-y-6">
+                <div class="p-6 flex-1 overflow-y-auto space-y-6 max-h-[400px] lg:max-h-none">
 
                     <!-- GPS -->
                     <div>
@@ -84,7 +76,7 @@
 
                     <!-- BUTTON -->
                     <button id="btnLoad"
-                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 rounded-2xl transition">
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3.5 rounded-2xl transition">
                         Tampilkan Rute
                     </button>
 
@@ -124,7 +116,7 @@
     <style>
         .step-btn {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border-radius: 12px;
             background: #18181b;
             border: 1px solid #27272a;
@@ -171,7 +163,9 @@
         let startPoint = null;
         let routeControl = null;
 
-        const map = L.map('map').setView([-7.25, 112.75], 11);
+        const map = L.map('map', {
+            scrollWheelZoom: false
+        }).setView([-7.25, 112.75], 11);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19
