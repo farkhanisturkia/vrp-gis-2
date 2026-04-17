@@ -248,13 +248,18 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            start: startPoint,
+                            start: fromPoint,
                             end: endPoint,
                             points: mandatoryPoints
                         })
                     });
 
-                    const optimizedRoute = await response.json();
+                    const vrpRoute = await response.json();
+
+                    const optimizedRoute = [
+                        startPoint,
+                        ...vrpRoute
+                    ];
 
                     // ================= CLEAR OLD =================
                     if (routeControl) map.removeControl(routeControl);
