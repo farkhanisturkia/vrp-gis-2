@@ -152,125 +152,176 @@
 
     @push('scripts')
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
 
-        const orderData = {
-            from: {!! json_encode($order->from) !!},
-            to: {!! json_encode($order->to) !!},
-            mandatories: {!! json_encode($order->mandatories) !!}
-        };
+            const orderData = {
+                from: {!! json_encode($order->from) !!},
+                to: {!! json_encode($order->to) !!},
+                mandatories: {!! json_encode($order->mandatories) !!}
+            };
 
-        let startPoint = null;
-        let routeControl = null;
+            let startPoint = null;
+            let routeControl = null;
+            let markers = [];
 
-        const map = L.map('map', {
-            scrollWheelZoom: false
-        }).setView([-7.25, 112.75], 11);
+            const map = L.map('map', {
+                scrollWheelZoom: false
+            }).setView([-7.25, 112.75], 11);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19
-        }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
+            }).addTo(map);
 
-        const gpsStatus = document.getElementById('gps-status');
+            const gpsStatus = document.getElementById('gps-status');
+            const btnLoad = document.getElementById('btnLoad');
 
-        navigator.geolocation.watchPosition(pos => {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
+            // ================= GPS =================
+            navigator.geolocation.watchPosition(pos => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
 
-            startPoint = { lat, lng, label: 'Posisi Saya' };
+                startPoint = { lat, lng, label: 'Posisi Saya' };
 
-            gpsStatus.innerHTML = `${lat.toFixed(5)}, ${lng.toFixed(5)} 
-                <span class="text-green-400">(aktif)</span>`;
-        });
-
-        let routePoints = [];
-
-        if (orderData.from) {
-            routePoints.push({
-                lat: +orderData.from.lat,
-                lng: +orderData.from.long,
-                label: orderData.from.area,
-                type: 'from'
+                gpsStatus.innerHTML = `${lat.toFixed(5)}, ${lng.toFixed(5)} 
+                    <span class="text-green-400">(aktif)</span>`;
             });
-        }
 
-        orderData.mandatories.forEach((m, i) => {
-            routePoints.push({
+            // ================= PREPARE DATA =================
+            const mandatoryPoints = orderData.mandatories.map(m => ({
                 lat: +m.lat,
                 lng: +m.long,
-                label: m.area,
-                type: 'mandatory',
-                order: i + 1
-            });
-        });
+                label: m.area
+            }));
 
-        if (orderData.to) {
-            routePoints.push({
+            const endPoint = orderData.to ? {
                 lat: +orderData.to.lat,
                 lng: +orderData.to.long,
-                label: orderData.to.area,
-                type: 'to'
-            });
-        }
+                label: orderData.to.area
+            } : null;
 
-        routePoints.forEach((p) => {
-            const icon = L.divIcon({
-                html: `<div class="marker-label">${p.type === 'from' ? 'A' : p.type === 'to' ? 'B' : p.order}</div>`
-            });
+            const fromPoint = orderData.from ? {
+                lat: +orderData.from.lat,
+                lng: +orderData.from.long,
+                label: orderData.from.area
+            } : null;
 
-            L.marker([p.lat, p.lng], { icon })
-                .addTo(map)
-                .bindPopup(p.label);
-        });
+            // ================= INITIAL MARKERS =================
+            function renderInitialMarkers() {
+                const points = [];
 
-        if (routePoints.length) {
-            map.fitBounds(routePoints.map(p => [p.lat, p.lng]), { padding: [50,50] });
-        }
+                if (fromPoint) points.push({ ...fromPoint, label: 'FROM: ' + fromPoint.label });
+                mandatoryPoints.forEach((p, i) => {
+                    points.push({ ...p, label: `M${i+1}: ${p.label}` });
+                });
+                if (endPoint) points.push({ ...endPoint, label: 'TO: ' + endPoint.label });
 
-        document.getElementById('btnLoad').onclick = () => {
-            if (!startPoint) return alert('GPS belum aktif');
+                points.forEach((p, i) => {
+                    const icon = L.divIcon({
+                        html: `<div class="marker-label">${i+1}</div>`
+                    });
 
-            const list = document.getElementById('stepList');
-            list.innerHTML = '';
+                    const marker = L.marker([p.lat, p.lng], { icon })
+                        .addTo(map)
+                        .bindPopup(p.label);
 
-            const full = [startPoint, ...routePoints];
+                    markers.push(marker);
+                });
 
-            full.slice(0, -1).forEach((cur, i) => {
-                const next = full[i+1];
+                if (points.length) {
+                    map.fitBounds(points.map(p => [p.lat, p.lng]), { padding: [50,50] });
+                }
+            }
 
-                const btn = document.createElement('button');
-                btn.className = 'step-btn';
-                btn.innerHTML = `
-                    <div class="text-white text-sm font-medium">${cur.label}</div>
-                    <div class="text-xs text-zinc-400">→ ${next.label}</div>
-                `;
+            renderInitialMarkers();
 
-                btn.onclick = () => {
-                    document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+            // ================= BUTTON CLICK =================
+            btnLoad.onclick = async () => {
+                if (!startPoint) return alert('GPS belum aktif');
 
+                btnLoad.innerText = 'Loading...';
+                btnLoad.disabled = true;
+
+                try {
+                    const response = await fetch('/api/vrp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            start: startPoint,
+                            end: endPoint,
+                            points: mandatoryPoints
+                        })
+                    });
+
+                    const optimizedRoute = await response.json();
+
+                    // ================= CLEAR OLD =================
                     if (routeControl) map.removeControl(routeControl);
+                    markers.forEach(m => map.removeLayer(m));
+                    markers = [];
 
+                    // ================= RENDER MARKERS =================
+                    optimizedRoute.forEach((p, i) => {
+                        const icon = L.divIcon({
+                            html: `<div class="marker-label">${i+1}</div>`
+                        });
+
+                        const marker = L.marker([p.lat, p.lng], { icon })
+                            .addTo(map)
+                            .bindPopup(p.label || `Point ${i+1}`);
+
+                        markers.push(marker);
+                    });
+
+                    // ================= ROUTE =================
                     routeControl = L.Routing.control({
-                        waypoints: [
-                            L.latLng(cur.lat, cur.lng),
-                            L.latLng(next.lat, next.lng)
-                        ],
+                        waypoints: optimizedRoute.map(p => L.latLng(p.lat, p.lng)),
                         createMarker: () => null
                     }).addTo(map);
-                };
 
-                list.appendChild(btn);
-            });
+                    // ================= STEP LIST =================
+                    const list = document.getElementById('stepList');
+                    list.innerHTML = '';
 
-            if (routeControl) map.removeControl(routeControl);
+                    optimizedRoute.slice(0, -1).forEach((cur, i) => {
+                        const next = optimizedRoute[i + 1];
 
-            routeControl = L.Routing.control({
-                waypoints: full.map(p => L.latLng(p.lat, p.lng)),
-                createMarker: () => null
-            }).addTo(map);
-        };
-    });
+                        const btn = document.createElement('button');
+                        btn.className = 'step-btn';
+
+                        btn.innerHTML = `
+                            <div class="text-white text-sm font-medium">${cur.label || 'Point'}</div>
+                            <div class="text-xs text-zinc-400">→ ${next.label || 'Point'}</div>
+                        `;
+
+                        btn.onclick = () => {
+                            document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+
+                            if (routeControl) map.removeControl(routeControl);
+
+                            routeControl = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(cur.lat, cur.lng),
+                                    L.latLng(next.lat, next.lng)
+                                ],
+                                createMarker: () => null
+                            }).addTo(map);
+                        };
+
+                        list.appendChild(btn);
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                    alert('Gagal ambil rute');
+                }
+
+                btnLoad.innerText = 'Tampilkan Rute';
+                btnLoad.disabled = false;
+            };
+        });
     </script>
     @endpush
 </x-app-layout>
