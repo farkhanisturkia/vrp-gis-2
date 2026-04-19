@@ -8,7 +8,7 @@
 
     <!-- Nama Armada -->
     <div class="mb-6">
-        <label for="name" class="block text-sm font-medium text-zinc-300 mb-2">
+        <label for="name" class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">
             Nama Armada
         </label>
         <input 
@@ -16,7 +16,7 @@
             name="name" 
             id="name" 
             value="{{ old('name', $armada?->name) }}"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
             required>
         @error('name')
             <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
@@ -25,7 +25,7 @@
 
     <!-- Kapasitas -->
     <div class="mb-6">
-        <label for="capacity" class="block text-sm font-medium text-zinc-300 mb-2">
+        <label for="name" class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">
             Kapasitas (KG)
         </label>
         <input 
@@ -34,7 +34,7 @@
             id="capacity" 
             value="{{ old('capacity', $armada?->capacity) }}"
             min="1"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
             required>
         @error('capacity')
             <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
@@ -42,8 +42,8 @@
     </div>
 
     <!-- No Plat -->
-    <div class="mb-8">
-        <label for="no_plat" class="block text-sm font-medium text-zinc-300 mb-2">
+    <div class="mb-6">
+        <label for="name" class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">
             Nomor Plat
         </label>
         <input 
@@ -51,7 +51,7 @@
             name="no_plat" 
             id="no_plat" 
             value="{{ old('no_plat', $armada?->no_plat) }}"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500 font-mono uppercase"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500 font-mono uppercase"
             required>
         @error('no_plat')
             <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>

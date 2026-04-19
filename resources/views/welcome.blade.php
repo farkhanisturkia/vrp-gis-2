@@ -27,7 +27,7 @@
         </script>
     @endif
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col overflow-x-hidden">
+<body class="bg-slate-300 dark:bg-zinc-950 text-gray-950 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
     <!-- Background gradient -->
     <div class="absolute inset-0 bg-[radial-gradient(at_top_right,#1E3A8A_0%,transparent_60%)] opacity-40"></div>
    
@@ -39,7 +39,7 @@
                 <div class="w-9 h-9 sm:w-10 sm:h-10 bg-orange-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">V</div>
                 <div>
                     <h1 class="text-xl sm:text-2xl font-semibold tracking-tight">VRP-GIS</h1>
-                    <p class="text-xs text-zinc-400 -mt-1">Angkutan PT</p>
+                    <p class="text-xs text-orange-400 -mt-1">Angkutan PT</p>
                 </div>
             </div>
            
@@ -77,7 +77,7 @@
                     <span class="text-orange-500">Pengiriman Efisien.</span>
                 </h1>
                 
-                <p class="text-lg md:text-xl text-zinc-400 max-w-md lg:max-w-lg">
+                <p class="text-lg md:text-xl text-zinc-800 dark:text-zinc-400 max-w-md lg:max-w-lg">
                     Platform VRP-GIS terintegrasi untuk manajemen armada angkutan PT. 
                     Optimasi rute, visualisasi peta, dan analisis performa dalam satu sistem.
                 </p>
@@ -90,7 +90,7 @@
                     </a>
                    
                     <a href="#"
-                       class="px-8 py-4 border border-white/30 hover:border-white/60 font-medium rounded-2xl transition-all flex items-center justify-center gap-3 text-base sm:text-lg">
+                       class="px-8 py-4 border border-black/90 dark:border-white/30 hover:border-white/60 font-medium rounded-2xl transition-all flex items-center justify-center gap-3 text-base sm:text-lg">
                         Lihat Demo
                     </a>
                 </div>
@@ -106,7 +106,7 @@
                         </div>
                         <div>
                             <h4 class="font-semibold">VRP Intelligence</h4>
-                            <p class="text-sm text-zinc-400">Algoritma Vehicle Routing Problem canggih</p>
+                            <p class="text-sm text-zinc-800 dark:text-zinc-400">Algoritma Vehicle Routing Problem canggih</p>
                         </div>
                     </div>
                     <div class="flex gap-4">
@@ -117,7 +117,7 @@
                         </div>
                         <div>
                             <h4 class="font-semibold">GIS Visualization</h4>
-                            <p class="text-sm text-zinc-400">Peta interaktif + heatmap rute</p>
+                            <p class="text-sm text-zinc-800 dark:text-zinc-400">Peta interaktif + heatmap rute</p>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="relative py-8 text-zinc-500 text-sm flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 border-t border-white/10 mt-auto">
+    <div class="relative py-8 text-zinc-800 dark:text-zinc-500 text-sm flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 border-t border-white/10 mt-auto">
         <div>© 2026 PT. Angkutan Indonesia</div>
         <div class="flex gap-6">
             <a href="#" class="hover:text-white transition-colors">Dokumentasi</a>

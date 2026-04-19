@@ -8,7 +8,7 @@
 
     <!-- Area -->
     <div class="mb-6">
-        <label for="area" class="block text-sm font-medium text-zinc-300 mb-2">
+        <label for="area" class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">
             Nama Area / Lokasi
         </label>
         <input 
@@ -25,7 +25,7 @@
 
     <!-- Latitude -->
     <div class="mb-6">
-        <label for="lat" class="block text-sm font-medium text-zinc-300 mb-2">
+        <label for="lat" class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">
             Latitude
         </label>
         <input 
@@ -43,7 +43,7 @@
 
     <!-- Longitude -->
     <div class="mb-8">
-        <label for="long" class="block text-sm font-medium text-zinc-300 mb-2">
+        <label for="long" class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">
             Longitude
         </label>
         <input 

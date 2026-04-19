@@ -8,7 +8,7 @@
 
             <!-- Email -->
             <div class="mb-7">
-                <x-input-label for="email" :value="__('Email')" class="text-zinc-300 text-sm font-medium" />
+                <x-input-label for="email" :value="__('Email')" class="text-zinc-800 dark:text-zinc-300 text-sm font-medium" />
                 <x-text-input 
                     id="email" 
                     class="block mt-2 w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-4 px-5 text-white placeholder-zinc-500" 
@@ -25,7 +25,7 @@
 
             <!-- Password -->
             <div class="mb-7">
-                <x-input-label for="password" :value="__('Password')" class="text-zinc-300 text-sm font-medium" />
+                <x-input-label for="password" :value="__('Password')" class="text-zinc-800 dark:text-zinc-300 text-sm font-medium" />
                 <x-text-input 
                     id="password" 
                     class="block mt-2 w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-4 px-5 text-white placeholder-zinc-500" 
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Login Button -->
-            <x-primary-button class="w-full py-4 text-base font-semibold 
+            <x-primary-button class="w-full py-4 text-base text-zinc-950 dark:text-zinc-300 font-semibold 
                                 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 
                                 transition-all duration-300 rounded-2xl shadow-lg shadow-orange-500/30 
                                 flex items-center justify-center">

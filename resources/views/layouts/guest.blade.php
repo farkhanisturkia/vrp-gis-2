@@ -13,7 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-zinc-950 text-white font-sans antialiased">
+<body class="bg-slate-300 dark:bg-zinc-950 text-gray-950 dark:text-white font-sans antialiased">
     <div class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
         
         <!-- Background subtle effect -->
@@ -29,26 +29,26 @@
                         <span class="text-white font-bold text-4xl tracking-tighter">V</span>
                     </div>
                     <div class="leading-none">
-                        <h1 class="text-4xl font-semibold tracking-tighter text-white">VRP-GIS</h1>
-                        <p class="text-orange-400 text-sm font-medium tracking-widest">ANGKUTAN PT</p>
+                        <h1 class="text-4xl font-semibold tracking-tighter text-gray-950 dark:text-white">VRP-GIS</h1>
+                        <p class="text-orange-500 text-sm font-bold tracking-widest">Angkutan PT</p>
                     </div>
                 </div>
                 
                 <div class="text-center mt-2">
-                    <p class="text-zinc-400 text-lg">
+                    <p class="text-zinc-800 dark:text-zinc-400 text-lg">
                         Sistem Optimalisasi Rute &amp; GIS
                     </p>
                 </div>
             </div>
 
             <!-- Main Card -->
-            <div class="bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
+            <div class="bg-slate-300 dark:bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
                 {{ $slot }}
             </div>
 
             <!-- Footer -->
             <div class="text-center mt-8">
-                <p class="text-zinc-500 text-xs">
+                <p class="text-zinc-800 dark:text-zinc-500 text-xs">
                     © 2026 PT Angkutan Indonesia • VRP-GIS Platform
                 </p>
             </div>

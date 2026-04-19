@@ -3,41 +3,65 @@
 @tailwind utilities;
 
 /* ===== CONTAINER ===== */
+/* ===== LIGHT MODE (DEFAULT) ===== */
 .choices__inner {
-    background-color: #27272a !important; /* zinc-800 */
-    border: 1px solid #3f3f46 !important; /* zinc-700 */
-    color: #ffffff !important;
-    border-radius: 1rem !important;
+    background-color: #e4e4e7; /* zinc-200 */
+    border: 1px solid #d4d4d8; /* zinc-300 */
+    color: #000000;
+    border-radius: 1rem;
     min-height: 56px;
-    padding: 8px 12px !important;
+    padding: 8px 12px;
 }
 
 /* INPUT */
 .choices__input {
-    background-color: transparent !important;
-    color: #ffffff !important;
+    background-color: transparent;
+    color: #000000;
 }
 
 /* DROPDOWN */
 .choices__list--dropdown {
-    background-color: #18181b !important; /* zinc-900 */
-    border: 1px solid #3f3f46 !important;
-    border-radius: 1rem;
-    overflow: hidden;
+    background-color: #f4f4f5; /* zinc-100 */
+    border: 1px solid #d4d4d8;
 }
 
-/* ITEM NORMAL (dropdown list) */
+/* ITEM */
 .choices__item--choice {
-    color: #e4e4e7 !important; /* zinc-200 */
-    background-color: transparent !important;
-    padding: 10px 14px;
-    border-radius: 0 !important;
+    color: #18181b; /* zinc-900 */
 }
 
-/* HOVER ITEM */
+/* HOVER */
 .choices__item--choice.is-highlighted {
-    background-color: #3f3f46 !important; /* zinc-700 */
-    color: white !important;
+    background-color: #d4d4d8; /* zinc-300 */
+    color: #000;
+}
+
+/* ===== DARK MODE (AUTO DEVICE) ===== */
+@media (prefers-color-scheme: dark) {
+
+    .choices__inner {
+        background-color: #27272a !important;
+        border: 1px solid #3f3f46 !important;
+        color: #ffffff !important;
+    }
+
+    .choices__input {
+        color: #ffffff !important;
+    }
+
+    .choices__list--dropdown {
+        background-color: #18181b !important;
+        border: 1px solid #3f3f46 !important;
+    }
+
+    .choices__item--choice {
+        color: #e4e4e7 !important;
+    }
+
+    .choices__item--choice.is-highlighted {
+        background-color: #3f3f46 !important;
+        color: white !important;
+    }
 }
 
 /* ===== FIX: TAG MULTIPLE SAJA ===== */

@@ -17,7 +17,7 @@
         
         @stack('styles')
     </head>
-    <body class="font-sans antialiased bg-zinc-950 text-zinc-100">
+    <body class="font-sans antialiased bg-zinc-300 dark:bg-zinc-950 text-zinc-100">
 
         <div class="flex h-screen overflow-hidden">
 
@@ -28,10 +28,10 @@
             <div class="flex-1 flex flex-col overflow-hidden">
 
                 <!-- Top Header (Mobile) -->
-                <header class="bg-zinc-900 border-b border-zinc-800 px-4 sm:px-6 py-4 flex items-center justify-between lg:hidden">
+                <header class="bg-zinc-300 dark:bg-zinc-900 border-b border-zinc-400 dark:border-zinc-800 px-4 sm:px-6 py-4 flex items-center justify-between lg:hidden">
                     <div class="flex items-center gap-3">
                         <button id="mobile-menu-button"
-                                class="p-2 text-zinc-400 hover:text-white">
+                                class="p-2 text-zinc-800 dark:text-zinc-400 hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
@@ -40,7 +40,7 @@
                             <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center">
                                 <span class="text-white font-bold text-2xl">V</span>
                             </div>
-                            <span class="font-semibold tracking-tight">VRP-GIS</span>
+                            <span class="font-semibold tracking-tight text-zinc-800 dark:text-zinc-300">VRP-GIS</span>
                         </div>
                     </div>
                 </header>
@@ -53,7 +53,7 @@
                 @endisset
 
                 <!-- Main Content -->
-                <main class="flex-1 overflow-auto p-4 sm:p-6 lg:p-8 bg-zinc-950">
+                <main class="flex-1 overflow-auto p-4 sm:p-6 lg:p-8 bg-zinc-300 dark:bg-zinc-950">
                     {{ $slot }}
                 </main>
             </div>

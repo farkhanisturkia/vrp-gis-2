@@ -8,17 +8,17 @@
 
     <!-- Tanggal -->
     <div class="mb-6">
-        <label class="block text-sm font-medium text-zinc-300 mb-2">Tanggal Pengiriman</label>
+        <label class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">Tanggal Pengiriman</label>
         <input type="date" name="date"
             value="{{ old('date', $order?->date?->format('Y-m-d')) }}"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base"
             required>
         @error('date') <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p> @enderror
     </div>
 
     <!-- From -->
     <div class="mb-6">
-        <label class="block text-sm font-medium text-zinc-300 mb-2">Dari</label>
+        <label class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">Dari</label>
         <select name="from_id" class="js-choices block w-full bg-zinc-800 border border-zinc-700 rounded-2xl py-3.5 px-5">
             <option value="">-- Pilih --</option>
             @foreach ($coordinates as $c)
@@ -32,7 +32,7 @@
 
     <!-- To -->
     <div class="mb-6">
-        <label class="block text-sm font-medium text-zinc-300 mb-2">Ke</label>
+        <label class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">Ke</label>
         <select name="to_id" class="js-choices block w-full bg-zinc-800 border border-zinc-700 rounded-2xl py-3.5 px-5">
             <option value="">-- Pilih --</option>
             @foreach ($coordinates as $c)
@@ -46,7 +46,7 @@
 
     <!-- Mandatory -->
     <div class="mb-8">
-        <label class="block text-sm font-medium text-zinc-300 mb-2">Mandatory Areas</label>
+        <label class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">Mandatory Areas</label>
         <select name="mandatories[]" multiple
             class="js-choices-multiple block w-full bg-zinc-800 border border-zinc-700 rounded-2xl py-3.5 px-5">
             @foreach ($coordinates as $c)
@@ -62,7 +62,7 @@
     <!-- User -->
     @if (auth()->user()->role === 'admin')
     <div class="mb-6">
-        <label class="block text-sm font-medium text-zinc-300 mb-2">User</label>
+        <label class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">User</label>
         <select name="user_id" class="js-choices block w-full bg-zinc-800 border border-zinc-700 rounded-2xl py-3.5 px-5">
             <option value="">-- Pilih --</option>
             @foreach ($users as $u)
@@ -76,7 +76,7 @@
 
     <!-- Armada -->
     <div class="mb-8">
-        <label class="block text-sm font-medium text-zinc-300 mb-2">Armada</label>
+        <label class="block text-sm font-medium text-zinc-800 dark:text-zinc-300 mb-2">Armada</label>
         <select name="armada_id" class="js-choices block w-full bg-zinc-800 border border-zinc-700 rounded-2xl py-3.5 px-5">
             <option value="">-- Pilih --</option>
             @foreach ($armadas as $a)

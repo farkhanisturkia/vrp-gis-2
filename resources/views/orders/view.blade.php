@@ -4,16 +4,16 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
-                <h1 class="text-2xl font-semibold text-white">
+                <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
                     Detail Order #{{ $order->id }}
                 </h1>
-                <p class="text-zinc-400 text-sm">
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm">
                     {{ $order->date?->format('d M Y') }}
                 </p>
             </div>
 
             <a href="{{ route('orders.index') }}" 
-               class="text-orange-400 hover:text-orange-500 font-medium">
+               class="text-orange-700 dark:text-orange-400 hover:text-orange-500 font-medium">
                 ← Kembali
             </a>
         </div>
@@ -22,20 +22,20 @@
         <div class="flex flex-col lg:flex-row gap-6">
 
             <!-- MAP -->
-            <div class="w-full lg:flex-1 h-[300px] sm:h-[400px] lg:h-auto bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden relative">
+            <div class="w-full lg:flex-1 h-[300px] sm:h-[400px] lg:h-auto bg-zinc-300 dark:bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden relative">
                 <div id="map" class="w-full h-full"></div>
             </div>
 
             <!-- SIDE PANEL -->
-            <div class="w-full lg:w-80 bg-zinc-900 border border-zinc-800 rounded-3xl flex flex-col overflow-hidden">
+            <div class="w-full lg:w-80 bg-zinc-300 dark:bg-zinc-900 border border-zinc-800 rounded-3xl flex flex-col overflow-hidden">
 
                 <!-- HEADER -->
-                <div class="p-6 border-b border-zinc-800 space-y-3">
+                <div class="p-6 border-b bg-zinc-400 dark:bg-zinc-800 space-y-3">
                     <div>
-                        <h2 class="text-white font-semibold">
+                        <h2 class="text-black dark:text-white font-semibold">
                             Rute Pengiriman
                         </h2>
-                        <p class="text-zinc-400 text-sm mt-1">
+                        <p class="text-zinc-800 dark:text-zinc-400 text-sm mt-1">
                             {{ $order->from?->area ?? '-' }} → {{ $order->to?->area ?? '-' }}
                         </p>
                     </div>
@@ -46,13 +46,13 @@
                         @method('PATCH')
 
                         <div>
-                            <label class="text-xs text-zinc-400 mb-1 block">
+                            <label class="text-xs text-zinc-800 dark:text-zinc-400 mb-1 block">
                                 Status Order
                             </label>
 
                             <select name="status"
                                 onchange="this.form.submit()"
-                                class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:ring-orange-500 focus:border-orange-500">
+                                class="w-full text-black dark:text-white dark:bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:ring-orange-500 focus:border-orange-500">
                                 
                                 <option value="set" {{ $order->status === 'set' ? 'selected' : '' }}>Set</option>
                                 <option value="start" {{ $order->status === 'start' ? 'selected' : '' }}>Start</option>
@@ -68,8 +68,8 @@
 
                     <!-- GPS -->
                     <div>
-                        <div class="text-xs text-zinc-400 mb-1">Start (GPS Anda)</div>
-                        <div id="gps-status" class="text-sm text-zinc-300">
+                        <div class="text-xs text-zinc-800 dark:text-zinc-400 mb-1">Start (GPS Anda)</div>
+                        <div id="gps-status" class="text-sm text-zinc-800 dark:text-zinc-300">
                             Menunggu lokasi...
                         </div>
                     </div>
@@ -82,26 +82,26 @@
 
                     <!-- STEP LIST -->
                     <div>
-                        <div class="text-xs text-zinc-400 mb-2">Detail Perjalanan</div>
+                        <div class="text-xs text-zinc-800 dark:text-zinc-400 mb-2">Detail Perjalanan</div>
                         <ul id="stepList" class="space-y-2"></ul>
                     </div>
                 </div>
 
                 <!-- FOOTER -->
-                <div class="p-6 border-t border-zinc-800 bg-zinc-950 text-sm">
+                <div class="p-6 border-t border-zinc-800 bg-zinc-400 dark:bg-zinc-950 text-sm">
                     <div class="flex justify-between">
                         <div>
-                            <div class="text-zinc-400 text-xs">User</div>
-                            <div class="text-white font-medium">
+                            <div class="text-zinc-800 dark:text-zinc-400 text-xs">User</div>
+                            <div class="text-black dark:text-white font-medium">
                                 {{ $order->user?->name ?? '-' }}
                             </div>
                         </div>
                         <div class="text-right">
-                            <div class="text-zinc-400 text-xs">Armada</div>
-                            <div class="text-white font-medium">
+                            <div class="text-zinc-800 dark:text-zinc-400 text-xs">Armada</div>
+                            <div class="text-black dark:text-white font-medium">
                                 {{ $order->armada?->no_plat ?? '-' }}
                             </div>
-                            <div class="text-zinc-500 text-xs">
+                            <div class="text-zinc-900 dark:text-zinc-500 text-xs">
                                 {{ $order->armada?->name ?? '-' }}
                             </div>
                         </div>
