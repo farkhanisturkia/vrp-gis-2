@@ -60,6 +60,13 @@
                                 <option value="end" {{ $order->status === 'end' ? 'selected' : '' }}>End</option>
                             </select>
                         </div>
+
+                        <div class="mt-3">
+                            <button type="button" onclick="openAnalysisModal()"
+                                class="w-full bg-zinc-200 text-black dark:bg-zinc-700 dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-600 font-medium py-2.5 rounded-2xl text-sm transition">
+                                Lihat Analisis VRP
+                            </button>
+                        </div>
                     </form>
                 </div>
 
@@ -112,6 +119,28 @@
         </div>
     </div>
 
+    <div id="analysisModal"
+        class="hidden fixed inset-0 z-50 items-center justify-center bg-white/60 dark:bg-black/80 backdrop-blur-sm p-4">
+
+        <div class="bg-white dark:bg-zinc-900 w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-black dark:text-white">
+                    Analisis VRP
+                </h3>
+                <button onclick="closeAnalysisModal()" class="text-2xl text-black dark:text-white">×</button>
+            </div>
+
+            <!-- CONTENT -->
+            <div id="analysisContent"
+                class="p-6 space-y-4 text-sm text-zinc-800 dark:text-zinc-300 max-h-[70vh] overflow-y-auto">
+
+                Loading...
+            </div>
+        </div>
+    </div>
+
     @push('styles')
     <style>
         .step-btn {
@@ -152,6 +181,10 @@
 
     @push('scripts')
     <script>
+        let fromPoint = null;
+        let endPoint = null;
+        let mandatoryPoints = [];
+
         document.addEventListener('DOMContentLoaded', () => {
 
             const orderData = {
@@ -187,19 +220,19 @@
             });
 
             // ================= PREPARE DATA =================
-            const mandatoryPoints = orderData.mandatories.map(m => ({
+            mandatoryPoints = orderData.mandatories.map(m => ({
                 lat: +m.lat,
                 lng: +m.long,
                 label: m.area
             }));
 
-            const endPoint = orderData.to ? {
+            endPoint = orderData.to ? {
                 lat: +orderData.to.lat,
                 lng: +orderData.to.long,
                 label: orderData.to.area
             } : null;
 
-            const fromPoint = orderData.from ? {
+            fromPoint = orderData.from ? {
                 lat: +orderData.from.lat,
                 lng: +orderData.from.long,
                 label: orderData.from.area
@@ -327,6 +360,73 @@
                 btnLoad.disabled = false;
             };
         });
+
+        function openAnalysisModal() {
+            const modal = document.getElementById('analysisModal');
+            const content = document.getElementById('analysisContent');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            content.innerHTML = "Loading analisis...";
+
+            loadAnalysis();
+        }
+
+        function closeAnalysisModal() {
+            const modal = document.getElementById('analysisModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function loadAnalysis() {
+            const content = document.getElementById('analysisContent');
+
+            try {
+                const response = await fetch('/api/vrp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        start: fromPoint,
+                        end: endPoint,
+                        points: mandatoryPoints
+                    })
+                });
+
+                const data = await response.json();
+
+                // ================= RENDER =================
+                let html = '';
+
+                html += `<div><b>Total Titik:</b> ${mandatoryPoints.length + 2}</div>`;
+
+                html += `<div class="mt-2"><b>Urutan Hasil Optimasi:</b></div>`;
+                html += `<ol class="list-decimal ml-5 space-y-1">`;
+
+                data.forEach((p, i) => {
+                    html += `<li>${p.label || 'Point'} (${p.lat.toFixed(4)}, ${p.lng.toFixed(4)})</li>`;
+                });
+
+                html += `</ol>`;
+
+                // OPTIONAL: kalau API kamu ada distance / cost
+                if (data.total_distance) {
+                    html += `<div class="mt-4"><b>Total Jarak:</b> ${data.total_distance} km</div>`;
+                }
+
+                if (data.total_time) {
+                    html += `<div><b>Estimasi Waktu:</b> ${data.total_time} menit</div>`;
+                }
+
+                content.innerHTML = html;
+
+            } catch (err) {
+                content.innerHTML = "Gagal load analisis";
+                console.error(err);
+            }
+        }
     </script>
     @endpush
 </x-app-layout>
