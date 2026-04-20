@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>VRP-GIS Angkutan | Optimalisasi Rute Pengangkutan</title>
+        <title>Sistem Informasi Rute Angkutan Pasir (SIRUSIR)</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
@@ -40,7 +40,7 @@
                             <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center">
                                 <span class="text-white font-bold text-2xl">V</span>
                             </div>
-                            <span class="font-semibold tracking-tight text-zinc-800 dark:text-zinc-300">VRP-GIS</span>
+                            <span class="font-semibold tracking-tight text-zinc-800 dark:text-zinc-300">SIRUSIR</span>
                         </div>
                     </div>
                 </header>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VRP-GIS Angkutan | Optimalisasi Rute Pengangkutan</title>
+    <title>Sistem Informasi Rute Angkutan Pasir (SIRUSIR)</title>
    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -38,8 +38,8 @@
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 bg-orange-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">V</div>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-semibold tracking-tight">VRP-GIS</h1>
-                    <p class="text-xs text-orange-400 -mt-1">Angkutan PT</p>
+                    <h1 class="text-xl sm:text-2xl font-semibold tracking-tight">SIRUSIR</h1>
+                    <p class="text-xs text-orange-400 -mt-1">Sistem Informasi Rute Angkutan Pasir</p>
                 </div>
             </div>
            
@@ -78,7 +78,7 @@
                 </h1>
                 
                 <p class="text-lg md:text-xl text-zinc-800 dark:text-zinc-400 max-w-md lg:max-w-lg">
-                    Platform VRP-GIS terintegrasi untuk manajemen armada angkutan PT. 
+                    Platform SIRUSIR terintegrasi untuk manajemen armada angkutan PT. 
                     Optimasi rute, visualisasi peta, dan analisis performa dalam satu sistem.
                 </p>
                 

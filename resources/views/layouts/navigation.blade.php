@@ -1,5 +1,5 @@
 <nav id="sidebar"
-     class="w-72 bg-zinc-300 dark:bg-zinc-900 border-r border-zinc-400 dark:border-zinc-800 flex flex-col h-screen overflow-hidden fixed lg:static inset-y-0 left-0 z-50 -translate-x-full lg:translate-x-0 transition-transform duration-300">
+     class="w-80 bg-zinc-300 dark:bg-zinc-900 border-r border-zinc-400 dark:border-zinc-800 flex flex-col h-screen overflow-hidden fixed lg:static inset-y-0 left-0 z-50 -translate-x-full lg:translate-x-0 transition-transform duration-300">
 
     <div class="p-6">
         <!-- Logo -->
@@ -8,8 +8,8 @@
                 <span class="text-white font-bold text-4xl">V</span>
             </div>
             <div>
-                <h1 class="text-3xl font-bold tracking-tighter text-gray-800 dark:text-white">VRP-GIS</h1>
-                <p class="text-xs text-orange-500 font-medium">Angkutan PT</p>
+                <h1 class="text-3xl font-bold tracking-tighter text-gray-800 dark:text-white">SIRUSIR</h1>
+                <p class="text-xs text-orange-500 font-medium">Sistem Informasi Rute Angkutan Pasir</p>
             </div>
         </a>
 

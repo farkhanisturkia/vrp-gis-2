@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'VRP-GIS Angkutan') }}</title>
+    <title>{{ config('app.name', 'Sistem Informasi Rute Angkutan Pasir (SIRUSIR)') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -29,8 +29,8 @@
                         <span class="text-white font-bold text-4xl tracking-tighter">V</span>
                     </div>
                     <div class="leading-none">
-                        <h1 class="text-4xl font-semibold tracking-tighter text-gray-950 dark:text-white">VRP-GIS</h1>
-                        <p class="text-orange-500 text-sm font-bold tracking-widest">Angkutan PT</p>
+                        <h1 class="text-4xl font-semibold tracking-tighter text-gray-950 dark:text-white">SIRUSIR</h1>
+                        <p class="text-orange-500 text-sm font-bold tracking-widest">Sistem Informasi Rute Angkutan Pasir</p>
                     </div>
                 </div>
                 
@@ -49,7 +49,7 @@
             <!-- Footer -->
             <div class="text-center mt-8">
                 <p class="text-zinc-800 dark:text-zinc-500 text-xs">
-                    © 2026 PT Angkutan Indonesia • VRP-GIS Platform
+                    © 2026 PT Angkutan Indonesia • SIRUSIR Platform
                 </p>
             </div>
         </div>
