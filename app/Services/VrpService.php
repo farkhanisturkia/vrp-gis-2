@@ -15,7 +15,6 @@ class VrpService
 
     public function solve(array $start, array $points, array $end): array
     {
-        // gabungkan semua titik
         $locations = [
             [$start['lng'], $start['lat']],
         ];
@@ -26,47 +25,84 @@ class VrpService
 
         $locations[] = [$end['lng'], $end['lat']];
 
-        // ambil matrix
+        // ================= MATRIX =================
         $matrix = $this->getMatrix($locations);
 
-        // index mapping
+        $distanceMatrix = $matrix['distance'];
+        $timeMatrix = $matrix['duration'];
+
         $startIndex = 0;
         $endIndex = count($locations) - 1;
         $pointIndexes = range(1, $endIndex - 1);
 
-        // solve TSP sederhana
-        $routeIndexes = $this->nearestNeighbor(
-            $startIndex,
-            $pointIndexes,
-            $endIndex,
-            $matrix
-        );
+        // ================= VRP =================
+        $steps = [];
+        $routeIndexes = [$startIndex];
+        $current = $startIndex;
+        $unvisited = $pointIndexes;
 
-        // convert ke object
+        while (count($unvisited)) {
+            $next = collect($unvisited)
+                ->sortBy(fn($i) => $timeMatrix[$current][$i])
+                ->first();
+
+            $steps[] = "Dari titik {$current} pilih {$next} (waktu: " .
+                round($timeMatrix[$current][$next] / 60, 2) . " menit)";
+
+            $routeIndexes[] = $next;
+            $current = $next;
+
+            $unvisited = array_values(array_filter($unvisited, fn($i) => $i !== $next));
+        }
+
+        $routeIndexes[] = $endIndex;
+
+        // ================= BUILD POINTS =================
         $allPoints = [
             [
+                'id' => 'A',
                 'lat' => $start['lat'],
                 'lng' => $start['lng'],
                 'label' => $start['label'] ?? 'Start'
             ],
-
             ...array_map(function ($p, $i) {
                 return [
+                    'id' => 'P' . ($i + 1),
                     'lat' => $p['lat'],
                     'lng' => $p['lng'],
                     'label' => $p['label'] ?? 'Point ' . ($i + 1)
                 ];
             }, $points, array_keys($points)),
-
             [
+                'id' => 'Z',
                 'lat' => $end['lat'],
                 'lng' => $end['lng'],
                 'label' => $end['label'] ?? 'Destination'
             ]
         ];
 
-        return array_map(fn($i) => $allPoints[$i], $routeIndexes);
-    }
+        // ================= TOTAL =================
+        $totalDistance = 0;
+        $totalTime = 0;
+
+        for ($i = 0; $i < count($routeIndexes) - 1; $i++) {
+            $a = $routeIndexes[$i];
+            $b = $routeIndexes[$i + 1];
+
+            $totalDistance += $distanceMatrix[$a][$b];
+            $totalTime += $timeMatrix[$a][$b];
+        }
+
+        return [
+            'points' => $allPoints,
+            'distance_matrix' => $distanceMatrix,
+            'time_matrix' => $timeMatrix,
+            'steps' => $steps,
+            'route' => array_map(fn($i) => $allPoints[$i], $routeIndexes),
+            'total_distance' => round($totalDistance / 1000, 2), // km
+            'total_time' => round($totalTime / 60, 2) // menit
+        ];
+    } 
 
     protected function getMatrix(array $locations): array
     {
@@ -75,14 +111,17 @@ class VrpService
             'Content-Type' => 'application/json'
         ])->post('https://api.openrouteservice.org/v2/matrix/driving-car', [
             'locations' => $locations,
-            'metrics' => ['duration']
+            'metrics' => ['distance', 'duration']
         ]);
 
         if (!$response->successful()) {
             dd($response->body());
         }
 
-        return $response->json()['durations'];
+        return [
+            'distance' => $response->json()['distances'], // meter
+            'duration' => $response->json()['durations']  // detik
+        ];
     }
 
     protected function nearestNeighbor(int $start, array $points, int $end, array $matrix): array

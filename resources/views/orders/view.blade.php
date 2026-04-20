@@ -287,11 +287,11 @@
                         })
                     });
 
-                    const vrpRoute = await response.json();
+                    const data = await response.json();
 
                     const optimizedRoute = [
                         startPoint,
-                        ...vrpRoute
+                        ...data.route
                     ];
 
                     // ================= CLEAR OLD =================
@@ -385,9 +385,7 @@
             try {
                 const response = await fetch('/api/vrp', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         start: fromPoint,
                         end: endPoint,
@@ -397,28 +395,64 @@
 
                 const data = await response.json();
 
-                // ================= RENDER =================
+                if (!data.points) {
+                    content.innerHTML = "Format data salah dari API";
+                    return;
+                }
+
                 let html = '';
 
-                html += `<div><b>Total Titik:</b> ${mandatoryPoints.length + 2}</div>`;
-
-                html += `<div class="mt-2"><b>Urutan Hasil Optimasi:</b></div>`;
-                html += `<ol class="list-decimal ml-5 space-y-1">`;
-
-                data.forEach((p, i) => {
-                    html += `<li>${p.label || 'Point'} (${p.lat.toFixed(4)}, ${p.lng.toFixed(4)})</li>`;
+                // ================= TITIK =================
+                html += `<div><b>Semua Titik:</b></div><ol class="list-decimal ml-5">`;
+                data.points.forEach(p => {
+                    html += `<li>${p.label} (${p.lat.toFixed(4)}, ${p.lng.toFixed(4)})</li>`;
                 });
-
                 html += `</ol>`;
 
-                // OPTIONAL: kalau API kamu ada distance / cost
-                if (data.total_distance) {
-                    html += `<div class="mt-4"><b>Total Jarak:</b> ${data.total_distance} km</div>`;
-                }
+                // ================= DISTANCE MATRIX =================
+                html += `<div class="mt-4"><b>Distance Matrix (km):</b></div>`;
+                html += `<table class="text-xs border mt-2">`;
+                data.distance_matrix.forEach(row => {
+                    html += `<tr>`;
+                    row.forEach(val => {
+                        html += `<td class="border px-2 py-1">${val}</td>`;
+                    });
+                    html += `</tr>`;
+                });
+                html += `</table>`;
 
-                if (data.total_time) {
-                    html += `<div><b>Estimasi Waktu:</b> ${data.total_time} menit</div>`;
-                }
+                // ================= TIME MATRIX =================
+                html += `<div class="mt-4"><b>Time Matrix (menit):</b></div>`;
+                html += `<table class="text-xs border mt-2">`;
+                data.time_matrix.forEach(row => {
+                    html += `<tr>`;
+                    row.forEach(val => {
+                        html += `<td class="border px-2 py-1">${val}</td>`;
+                    });
+                    html += `</tr>`;
+                });
+                html += `</table>`;
+
+                // ================= STEPS =================
+                html += `<div class="mt-4"><b>Proses VRP:</b></div><ul class="list-disc ml-5">`;
+                data.steps.forEach(s => {
+                    html += `<li>${s}</li>`;
+                });
+                html += `</ul>`;
+
+                // ================= ROUTE =================
+                html += `<div class="mt-4"><b>Rute Akhir:</b></div>`;
+                html += `
+                    <div class="flex flex-wrap gap-2 items-center">
+                        ${data.route.map(p => `
+                            <span class="px-2 py-1 bg-zinc-700 rounded">${p.label}</span>
+                        `).join('<span>→</span>')}
+                    </div>
+                `;
+
+                // ================= TOTAL =================
+                html += `<div class="mt-2"><b>Total Jarak:</b> ${data.total_distance} km</div>`;
+                html += `<div><b>Total Waktu:</b> ${data.total_time} menit</div>`;
 
                 content.innerHTML = html;
 
