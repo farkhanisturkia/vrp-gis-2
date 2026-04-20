@@ -4,8 +4,23 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
-                <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+                @php
+                    $statusColors = [
+                        'set' => 'bg-gray-200 text-gray-800',
+                        'start' => 'bg-blue-200 text-blue-800',
+                        'stop' => 'bg-yellow-200 text-yellow-800',
+                        'end' => 'bg-green-200 text-green-800',
+                    ];
+
+                    $color = $statusColors[$order->status] ?? 'bg-gray-200 text-gray-800';
+                @endphp
+
+                <h1 class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center gap-3">
                     Detail Order #{{ $order->id }}
+
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $color }}">
+                        {{ strtoupper($order->status) }}
+                    </span>
                 </h1>
                 <p class="text-zinc-600 dark:text-zinc-400 text-sm">
                     {{ $order->date?->format('d M Y') }}
@@ -40,34 +55,17 @@
                         </p>
                     </div>
 
-                    <!-- STATUS -->
-                    <form method="POST" action="{{ route('orders.updateStatus', $order->id) }}">
-                        @csrf
-                        @method('PATCH')
+                    <button type="button" onclick="openStatusModal()"
+                        class="mt-3 w-full bg-orange-500 text-white py-2.5 rounded-2xl">
+                        Update Status
+                    </button>
 
-                        <div>
-                            <label class="text-xs text-zinc-800 dark:text-zinc-400 mb-1 block">
-                                Status Order
-                            </label>
-
-                            <select name="status"
-                                onchange="this.form.submit()"
-                                class="w-full text-black dark:text-white dark:bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:ring-orange-500 focus:border-orange-500">
-                                
-                                <option value="set" {{ $order->status === 'set' ? 'selected' : '' }}>Set</option>
-                                <option value="start" {{ $order->status === 'start' ? 'selected' : '' }}>Start</option>
-                                <option value="stop" {{ $order->status === 'stop' ? 'selected' : '' }}>Stop</option>
-                                <option value="end" {{ $order->status === 'end' ? 'selected' : '' }}>End</option>
-                            </select>
-                        </div>
-
-                        <div class="mt-3">
-                            <button type="button" onclick="openAnalysisModal()"
-                                class="w-full bg-zinc-200 text-black dark:bg-zinc-700 dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-600 font-medium py-2.5 rounded-2xl text-sm transition">
-                                Lihat Analisis VRP
-                            </button>
-                        </div>
-                    </form>
+                    @if (auth()->user()->isAdmin())
+                        <button type="button" onclick="openAnalysisModal()"
+                            class="mt-3 w-full bg-zinc-200 text-black dark:bg-zinc-700 dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-600 font-medium py-2.5 rounded-2xl text-sm transition">
+                            Lihat Analisis VRP
+                        </button>
+                    @endif
                 </div>
 
                 <!-- CONTENT -->
@@ -116,6 +114,55 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <div id="statusModal"
+        class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+
+        <div class="bg-white dark:bg-zinc-900 text-black dark:text-white w-full max-w-md rounded-2xl p-6">
+
+            <h3 class="text-lg font-semibold mb-4">Update Status</h3>
+
+            <form method="POST" action="{{ route('orders.updateStatus', $order->id) }}">
+                @csrf
+                @method('PATCH')
+
+                <!-- STATUS -->
+                <div class="mt-2">
+                    <label class="text-sm">Status</label>
+                    <select name="status"
+                        class="w-full text-black dark:text-white dark:bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:ring-orange-500 focus:border-orange-500">
+                        
+                        <option value="set" {{ $order->status === 'set' ? 'selected' : '' }}>Set</option>
+                        <option value="start" {{ $order->status === 'start' ? 'selected' : '' }}>Start</option>
+                        <option value="stop" {{ $order->status === 'stop' ? 'selected' : '' }}>Stop</option>
+                        <option value="end" {{ $order->status === 'end' ? 'selected' : '' }}>End</option>
+                    </select>
+                </div>
+
+                <!-- MESSAGE -->
+                <div class="mt-2">
+                    <label class="text-sm">Pesan</label>
+                    <textarea name="content"
+                        class="w-full mt-1 dark:bg-zinc-800 text-black dark:text-white border rounded-lg p-2"
+                        rows="3" required
+                        placeholder="Tulis pesan..."></textarea>
+                </div>
+
+                <!-- ACTION -->
+                <div class="flex justify-end gap-2 mt-4">
+                    <button type="button" onclick="closeStatusModal()"
+                        class="px-4 py-2 bg-zinc-300 dark:bg-zinc-600 text-black dark:text-white rounded-lg">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                        class="px-4 py-2 bg-orange-500 text-white rounded-lg">
+                        Simpan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -460,6 +507,18 @@
                 content.innerHTML = "Gagal load analisis";
                 console.error(err);
             }
+        }
+
+        function openStatusModal() {
+            const modal = document.getElementById('statusModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeStatusModal() {
+            const modal = document.getElementById('statusModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
     </script>
     @endpush

@@ -60,4 +60,9 @@ class Order extends Model
     {
         return $this->belongsTo(Armada::class, 'armada_id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'order_id');
+    }
 }

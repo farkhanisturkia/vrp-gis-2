@@ -100,7 +100,8 @@ class OrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|in:set,start,stop,end'
+            'status'  => 'required|in:set,start,stop,end',
+            'content' => 'required|string'
         ]);
 
         // OPTIONAL: proteksi user hanya boleh ubah order miliknya
@@ -110,6 +111,12 @@ class OrderController extends Controller
 
         $order->update([
             'status' => $request->status
+        ]);
+
+        $order->messages()->create([
+            'user_id' => auth()->id(),
+            'status'  => $request->status,
+            'content' => $request->content
         ]);
 
         return back()->with('success', 'Status order berhasil diupdate.');
