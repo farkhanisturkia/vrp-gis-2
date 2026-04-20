@@ -445,7 +445,7 @@
                 html += `
                     <div class="flex flex-wrap gap-2 items-center">
                         ${data.route.map(p => `
-                            <span class="px-2 py-1 bg-zinc-700 rounded">${p.label}</span>
+                            <span class="px-2 py-1 dark:bg-zinc-700 rounded">${p.label}</span>
                         `).join('<span>→</span>')}
                     </div>
                 `;
