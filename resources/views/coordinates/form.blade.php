@@ -16,7 +16,7 @@
             name="area" 
             id="area" 
             value="{{ old('area', $coordinate?->area) }}"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
             required>
         @error('area')
             <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
@@ -34,7 +34,7 @@
             name="lat" 
             id="lat" 
             value="{{ old('lat', $coordinate?->lat) }}"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500 font-mono"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
             required>
         @error('lat')
             <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
@@ -52,7 +52,7 @@
             name="long" 
             id="long" 
             value="{{ old('long', $coordinate?->long) }}"
-            class="block w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500 font-mono"
+            class="block w-full bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-3.5 px-5 text-base placeholder-zinc-500"
             required>
         @error('long')
             <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
