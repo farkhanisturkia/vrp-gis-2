@@ -11,7 +11,7 @@
                 <x-input-label for="email" :value="__('Email')" class="text-zinc-800 dark:text-zinc-300 text-sm font-medium" />
                 <x-text-input 
                     id="email" 
-                    class="block mt-2 w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-4 px-5 text-white placeholder-zinc-500" 
+                    class="block mt-2 w-full bg-zinc-300 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-4 px-5 placeholder-zinc-500" 
                     type="email" 
                     name="email" 
                     :value="old('email')" 
@@ -28,7 +28,7 @@
                 <x-input-label for="password" :value="__('Password')" class="text-zinc-800 dark:text-zinc-300 text-sm font-medium" />
                 <x-text-input 
                     id="password" 
-                    class="block mt-2 w-full bg-zinc-800 border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-4 px-5 text-white placeholder-zinc-500" 
+                    class="block mt-2 w-full bg-zinc-300 dark:bg-zinc-800 text-black dark:text-white border border-zinc-700 focus:border-orange-500 focus:ring-orange-500 rounded-2xl py-4 px-5 placeholder-zinc-500" 
                     type="password" 
                     name="password" 
                     required 
