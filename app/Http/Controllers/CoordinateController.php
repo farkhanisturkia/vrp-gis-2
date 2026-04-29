@@ -9,7 +9,7 @@ class CoordinateController extends Controller
 {
     public function index()
     {
-        $coordinates = Coordinate::orderBy('id', 'asc')->paginate(14);
+        $coordinates = Coordinate::orderBy('id', 'asc')->paginate(11);
 
         $editCoordinate = null;
 

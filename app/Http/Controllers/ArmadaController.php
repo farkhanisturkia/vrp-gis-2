@@ -9,7 +9,7 @@ class ArmadaController extends Controller
 {
     public function index()
     {
-        $armadas = Armada::orderBy('name', 'asc')->paginate(14);
+        $armadas = Armada::orderBy('name', 'asc')->paginate(11);
 
         $editArmada = null;
 

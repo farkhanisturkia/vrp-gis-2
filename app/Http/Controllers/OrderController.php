@@ -14,7 +14,7 @@ class OrderController extends Controller
         $orders = Order::with(['from', 'to', 'user', 'armada', 'mandatories'])
             ->forCurrentUser()
             ->orderBy('date', 'asc')
-            ->paginate(13);
+            ->paginate(11);
 
         $users = User::select('id', 'name', 'email')->where('role', 'user')->orderBy('name')->get();
         $armadas = Armada::select('id', 'name', 'no_plat')->orderBy('name')->get();
