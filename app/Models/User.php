@@ -34,6 +34,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function unreadMessages()
+    {
+        return $this->hasMany(Message::class, 'user_id')->where('is_read', false);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

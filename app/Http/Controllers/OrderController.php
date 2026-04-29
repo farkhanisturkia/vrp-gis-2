@@ -122,6 +122,26 @@ class OrderController extends Controller
         return back()->with('success', 'Status order berhasil diupdate.');
     }
 
+    public function getNotifications()
+    {
+        $notifications = \App\Models\Message::with('user', 'order')
+            ->latest()
+            ->limit(20)
+            ->get();
+
+        return response()->json($notifications);
+    }
+
+    public function markAsRead(\App\Models\Message $message)
+    {
+        $message->update(['is_read' => true]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated'
+        ]);
+    }
+
     public function destroy(Order $order)
     {
         $order->delete();

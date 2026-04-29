@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
         Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
         Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+        Route::get('/notifications', [OrderController::class, 'getNotifications'])->name('notifications.get');
+        Route::patch('/notifications/{message}/read', [OrderController::class, 'markAsRead'])->name('notifications.read');
     });
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

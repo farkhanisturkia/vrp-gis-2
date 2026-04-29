@@ -25,6 +25,7 @@ return new class extends Migration
             $table->enum('status', ['set', 'start', 'stop', 'end'])
                 ->default('set');
             $table->string('content');
+            $table->boolean('is_read')->default(false);
 
             $table->timestamps();
         });
