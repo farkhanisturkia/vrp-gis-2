@@ -14,6 +14,8 @@ Persiapan run project:
 ```cp .env.example .env```
 - `composer install`
 - `php artisan key:generate`
-- `php artisan migrate –seed`
+- `php artisan migrate:fresh --path=database/migrations/app`
+- `php artisan migrate:fresh --path=database/migrations/system --database=system`
+- `php artisan db:seed`
 - `php artisan serve`
 - `npm run dev` dijalankan pada tab yang lain
