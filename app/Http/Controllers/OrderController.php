@@ -16,7 +16,7 @@ class OrderController extends Controller
             ->orderBy('date', 'asc')
             ->paginate(13);
 
-        $users = User::select('id', 'name', 'email')->orderBy('name')->get();
+        $users = User::select('id', 'name', 'email')->where('role', 'user')->orderBy('name')->get();
         $armadas = Armada::select('id', 'name', 'no_plat')->orderBy('name')->get();
         $coordinates = Coordinate::select('id', 'area')->orderBy('area')->get();
 
