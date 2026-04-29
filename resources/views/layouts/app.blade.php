@@ -109,10 +109,18 @@
 
                 [badgeDesktop, badgeMobile].forEach(badge => {
                     if (badge) {
+                        const currentCount = parseInt(badge.innerText) || 0;
+
                         if (unreadCount > 0) {
                             badge.innerText = unreadCount;
                             badge.classList.remove('hidden');
                             badge.classList.add('flex');
+
+                            if (unreadCount > currentCount) {
+                                const icon = badge.parentElement.querySelector('svg');
+                                icon.classList.add('animate-bounce'); // Animasi Tailwind
+                                setTimeout(() => icon.classList.remove('animate-bounce'), 3000);
+                            }
                         } else {
                             badge.classList.add('hidden');
                             badge.classList.remove('flex');
@@ -184,6 +192,7 @@
             document.addEventListener('DOMContentLoaded', function() {
                 @if(auth()->user() && auth()->user()->isAdmin())
                     fetchNotifications();
+                    setInterval(fetchNotifications, 10000);
                 @endif
             });
         </script>
