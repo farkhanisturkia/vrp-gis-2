@@ -6,7 +6,10 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Armada;
 use App\Models\Coordinate;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use App\Mail\OrderNotification;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -113,18 +116,29 @@ class OrderController extends Controller
             'status' => $request->status
         ]);
 
-        $order->messages()->create([
+        $message = $order->messages()->create([
             'user_id' => auth()->id(),
             'status'  => $request->status,
             'content' => $request->content
         ]);
+
+        // $targetEmail = config('mail.admin_email');
+        $adminEmails = User::where('role', 'admin')->pluck('email');
+
+        if ($adminEmails->count() > 0) {
+            try {
+                Mail::to($adminEmails)->send(new OrderNotification($order, $message));
+            } catch (\Exception $e) {
+                \Log::error("Gagal kirim email Mailjet: " . $e->getMessage());
+            }
+        }
 
         return back()->with('success', 'Status order berhasil diupdate.');
     }
 
     public function getNotifications()
     {
-        $notifications = \App\Models\Message::with('user', 'order')
+        $notifications = Message::with('user', 'order')
             ->latest()
             ->limit(20)
             ->get();
@@ -132,7 +146,7 @@ class OrderController extends Controller
         return response()->json($notifications);
     }
 
-    public function markAsRead(\App\Models\Message $message)
+    public function markAsRead(Message $message)
     {
         $message->update(['is_read' => true]);
 
