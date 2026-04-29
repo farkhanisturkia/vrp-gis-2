@@ -2,93 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== CONTAINER ===== */
-/* ===== LIGHT MODE (DEFAULT) ===== */
+/* ===== CHOICES.JS REFINED STYLE ===== */
+
+/* Container Utama */
 .choices__inner {
-    background-color: #e4e4e7; /* zinc-200 */
-    border: 1px solid #d4d4d8; /* zinc-300 */
-    color: #000000;
-    border-radius: 1rem;
-    min-height: 56px;
-    padding: 8px 12px;
+    background-color: #e4e4e7 !important; /* zinc-200 */
+    border: 1px solid #d4d4d8 !important; /* zinc-300 */
+    color: #000000 !important;
+    border-radius: 1rem !important;
+    
+    /* Gunakan padding untuk mengatur tinggi, jangan hanya min-height */
+    min-height: 56px !important;
+    padding: 0 12px !important; /* Hapus padding top/bottom agar flex yang bekerja */
+    
+    display: flex !important;
+    align-items: center !important; /* Ini yang akan menarik teks ke tengah vertikal */
+    transition: all 0.2s;
 }
 
-/* INPUT */
-.choices__input {
-    background-color: transparent;
-    color: #000000;
+/* Pastikan list item (pilihan yang terpilih) juga center */
+.choices__list--single {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    padding: 0 !important;
 }
 
-/* DROPDOWN */
+/* Saat Input di-klik (Focus) */
+.is-focused .choices__inner, .is-open .choices__inner {
+    border-color: #f97316 !important; /* orange-500 */
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+/* List Dropdown */
 .choices__list--dropdown {
-    background-color: #f4f4f5; /* zinc-100 */
-    border: 1px solid #d4d4d8;
+    background-color: #ffffff !important;
+    border: 1px solid #d4d4d8 !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    z-index: 100 !important;
 }
 
-/* ITEM */
+/* Item dalam list */
 .choices__item--choice {
-    color: #18181b; /* zinc-900 */
+    padding: 10px 15px !important;
+    color: #18181b !important; /* zinc-900 */
 }
 
-/* HOVER */
+/* Highlight saat hover atau navigasi keyboard */
 .choices__item--choice.is-highlighted {
-    background-color: #d4d4d8; /* zinc-300 */
-    color: #000;
+    background-color: #f4f4f5 !important; /* zinc-100 */
+    color: #f97316 !important; /* orange-500 */
 }
 
-/* ===== DARK MODE (AUTO DEVICE) ===== */
+/* ===== DARK MODE OVERRIDE ===== */
 @media (prefers-color-scheme: dark) {
-
     .choices__inner {
-        background-color: #27272a !important;
+        background-color: #27272a !important; /* zinc-800 */
         border: 1px solid #3f3f46 !important;
-        color: #ffffff !important;
-    }
-
-    .choices__input {
         color: #ffffff !important;
     }
 
     .choices__list--dropdown {
-        background-color: #18181b !important;
+        background-color: #18181b !important; /* zinc-900 */
         border: 1px solid #3f3f46 !important;
     }
 
     .choices__item--choice {
-        color: #e4e4e7 !important;
+        color: #e4e4e7 !important; /* zinc-200 */
     }
 
     .choices__item--choice.is-highlighted {
-        background-color: #3f3f46 !important;
-        color: white !important;
+        background-color: #27272a !important; /* zinc-800 */
+        color: #ffffff !important;
+    }
+
+    /* Input search di dalam dropdown */
+    .choices__input {
+        background-color: transparent !important;
+        color: #ffffff !important;
+        border-bottom: 1px solid #3f3f46 !important;
     }
 }
 
-/* ===== FIX: TAG MULTIPLE SAJA ===== */
-.choices__list--multiple .choices__item {
-    background-color: #f97316 !important;
-    border: none !important;
-    color: white !important;
-    border-radius: 9999px;
-    padding: 4px 10px;
-    margin: 2px;
-}
-
-/* REMOVE BUTTON */
-.choices__button {
-    filter: invert(1);
-}
-
-/* FIX SINGLE SELECT BIAR NORMAL */
-.choices[data-type*="select-one"] .choices__inner {
-    display: flex;
-    align-items: center;
-}
-
-/* FIX TEXT SINGLE */
-.choices__list--single .choices__item {
-    background: transparent !important;
-    padding: 0 !important;
+/* Sembunyikan input asli agar tidak double */
+.choices__input--cloned {
+    display: none !important;
 }
 
 /* ===== Leaflet Routing Dark Mode ===== */
