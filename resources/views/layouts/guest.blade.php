@@ -24,7 +24,7 @@
         <div class="w-full max-w-md relative z-10">
             
             <!-- Logo & Brand -->
-            <div class="flex flex-col items-center mb-10">
+            <div class="hidden lg:flex flex-col items-center mb-10">
                 <div class="flex items-center gap-4 mb-3">
                     <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-xl">
                         <span class="text-white font-bold text-4xl tracking-tighter">V</span>
