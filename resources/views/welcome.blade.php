@@ -90,10 +90,10 @@
                         <span aria-hidden="true">→</span>
                     </a>
                    
-                    <a href="#"
-                       class="px-8 py-4 border border-black/90 dark:border-white/30 hover:border-white/60 font-medium rounded-2xl transition-all flex items-center justify-center gap-3 text-base sm:text-lg">
+                    <button type="button" onclick="openDemoModal()"
+                       class="px-8 py-4 border border-black/90 dark:border-white/30 hover:border-white/60 font-medium rounded-2xl transition-all flex items-center justify-center gap-3 text-base sm:text-lg cursor-pointer">
                         Lihat Demo
-                    </a>
+                    </button>
                 </div>
 
                 <!-- Features -->
@@ -164,7 +164,43 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <div id="demoModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-zinc-900 border border-white/10 max-w-lg w-full mx-5 p-6 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <span class="w-8 h-8 bg-orange-500 rounded-xl text-sm flex items-center justify-center text-white font-bold">i</span>
+                    Informasi Akses Demo
+                </h3>
+            </div>
+            
+            <div class="space-y-5 text-sm text-zinc-400">
+                <p>Terima kasih telah tertarik dengan platform <strong class="text-white">SIRUSIR</strong>. Anda dapat mencoba akses sistem ini menggunakan kredensial berikut untuk akun administrator:</p>
+                
+                <div class="bg-zinc-950 border border-white/5 p-4 rounded-2xl space-y-3 font-mono text-xs">
+                    <div>
+                        <span class="text-orange-400">Email :</span> 
+                        <span class="text-white select-all">admin@example.com</span>
+                    </div>
+                    <div>
+                        <span class="text-orange-400">Password :</span> 
+                        <span class="text-white select-all">password</span>
+                    </div>
+                </div>
+
+                <p>Silahkan untuk membuat kredensial akun user, data coordinate, dan melakukan order terhadap user tersebut.</p>
+
+                <div class="text-xs text-zinc-500 mt-2">
+                    * Harap gunakan kredensial ini hanya untuk keperluan demonstrasi atau pengujian sistem.
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <button onclick="closeDemoModal()" class="px-5 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-medium transition-all">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="relative py-8 text-zinc-800 dark:text-zinc-500 text-sm flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 border-t border-white/10 mt-auto">
         <div>© 2026 PT. Angkutan Indonesia</div>
         <div class="flex gap-6">
@@ -172,5 +208,19 @@
             <a href="#" class="hover:text-white transition-colors">Support</a>
         </div>
     </div>
+
+    <script>
+        function openDemoModal() {
+            const modal = document.getElementById('demoModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-95');
+        }
+
+        function closeDemoModal() {
+            const modal = document.getElementById('demoModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.add('scale-95');
+        }
+    </script>
 </body>
 </html>
