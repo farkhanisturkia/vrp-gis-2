@@ -187,7 +187,7 @@
                     </div>
                 </div>
 
-                <p>Silahkan untuk membuat kredensial akun user, data coordinate, dan melakukan order terhadap user tersebut.</p>
+                <p>Silahkan untuk membuat kredensial akun user, data coordinate, data armada, dan melakukan order terhadap user tersebut.</p>
 
                 <div class="text-xs text-zinc-500 mt-2">
                     * Harap gunakan kredensial ini hanya untuk keperluan demonstrasi atau pengujian sistem.
