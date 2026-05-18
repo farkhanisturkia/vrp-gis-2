@@ -33,7 +33,7 @@ class VrpService
 
         $startIndex = 0;
         $endIndex = count($locations) - 1;
-        $pointIndexes = range(1, $endIndex - 1);
+        $pointIndexes = ($endIndex - 1 >= 1) ? range(1, $endIndex - 1) : [];
 
         // ================= VRP =================
         $steps = [];
@@ -41,18 +41,23 @@ class VrpService
         $current = $startIndex;
         $unvisited = $pointIndexes;
 
-        while (count($unvisited)) {
-            $next = collect($unvisited)
-                ->sortBy(fn($i) => $timeMatrix[$current][$i])
-                ->first();
+        if (count($unvisited) > 0) {
+            while (count($unvisited)) {
+                $next = collect($unvisited)
+                    ->sortBy(fn($i) => $timeMatrix[$current][$i])
+                    ->first();
 
-            $steps[] = "Dari titik {$current} pilih {$next} (waktu: " .
-                round($timeMatrix[$current][$next] / 60, 2) . " menit)";
+                $steps[] = "Dari titik {$current} pilih {$next} (waktu: " .
+                    round($timeMatrix[$current][$next] / 60, 2) . " menit)";
 
-            $routeIndexes[] = $next;
-            $current = $next;
+                $routeIndexes[] = $next;
+                $current = $next;
 
-            $unvisited = array_values(array_filter($unvisited, fn($i) => $i !== $next));
+                $unvisited = array_values(array_filter($unvisited, fn($i) => $i !== $next));
+            }
+        } else {
+            $steps[] = "Tidak ada titik mandatory. Rute langsung dari titik {$startIndex} ke titik {$endIndex} (waktu: " . 
+                round($timeMatrix[$startIndex][$endIndex] / 60, 2) . " menit)";
         }
 
         $routeIndexes[] = $endIndex;
